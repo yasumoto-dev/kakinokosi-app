@@ -1,0 +1,8 @@
+# frontend
+frontend/node_modules
+
+# backend
+backend/venv
+
+# common
+.env
