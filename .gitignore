@@ -1,8 +1,11 @@
 # frontend
-frontend/node_modules
+node_modules
+dist/
 
 # backend
-backend/venv
+.venv/
+__pycache__/
+*.pyc
 
 # common
 .env
