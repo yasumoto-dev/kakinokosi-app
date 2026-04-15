@@ -13,5 +13,6 @@ app.include_router(rooms.router)
 app.include_router(posts.router)
 
 @app.get("/")
+@app.head("/")
 async def root():
     return {"message": "カキノコシ API 起動中"}
