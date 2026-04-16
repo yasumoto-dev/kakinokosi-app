@@ -12,7 +12,6 @@ export default function App() {
                 <Route path="/rooms/join" element={<RoomJoin />} />
                 <Route path="/rooms/:roomId/posts/new" element={<PostNew />} />
                 <Route path="/rooms/:roomId/posts" element={<PostList />} />
-
             </Routes>
         </BrowserRouter>
     );
