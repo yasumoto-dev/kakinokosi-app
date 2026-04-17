@@ -4,6 +4,7 @@ import RoomJoin from './pages/RoomJoin'
 import PostNew from './pages/PostNew'
 import PostList from './pages/PostList'
 
+// アプリのルートコンポーネント（SPA）
 export default function App() {
     return (
         <BrowserRouter>
