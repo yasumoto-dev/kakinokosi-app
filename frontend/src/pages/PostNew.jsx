@@ -8,7 +8,7 @@ export default function PostNew() {
     const [moodColor, setMoodColor] = useState('')
     const [emotionTag, setEmotionTag] = useState('')
     const [text, setText] = useState('')
-    const [publishTiming, setPublishTiming] = useState('')
+    const [publishTiming, setPublishTiming] = useState('immediate')
     const [error, setError] = useState('')
 
     const handleSubmit = async (e) => {
@@ -23,11 +23,9 @@ export default function PostNew() {
             return
         }
 
-        // ↓ここから実装する
         try {
-            const res = await joinRoom(roomId, { accessKey, userUuid, nickname })
-            localStorage.setItem('nickname', nickname)
-            navigate(`/rooms/${res.data.roomId}/posts`)
+            await createPost(roomId, { userUuid, nickname, moodColor, emotionTag, text, publishTiming })
+            navigate(`/rooms/${roomId}/posts`)
         } catch (err) {
             setError(err.response?.data?.detail || 'エラーが発生しました')
         }
@@ -35,22 +33,30 @@ export default function PostNew() {
 
     return (
         <div>
-            <h1>ルームに参加する</h1>
+            <h1>投稿を作成する</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>ルームID</label>
-                    <input value={roomId} onChange={(e) => setRoomId(e.target.value)} required />
+                    <label>気分カラー</label>
+                    <input value={moodColor} onChange={(e) => setMoodColor(e.target.value)} required />
                 </div>
                 <div>
-                    <label>アクセスキー</label>
-                    <input value={accessKey} onChange={(e) => setAccessKey(e.target.value)} required />
+                    <label>感情タグ</label>
+                    <input value={emotionTag} onChange={(e) => setEmotionTag(e.target.value)} required />
                 </div>
                 <div>
-                    <label>ニックネーム</label>
-                    <input value={nickname} onChange={(e) => setNickname(e.target.value)} required />
+                    <label>本文 (400文字以内) </label>
+                    <textarea value={text} onChange={(e) => setText(e.target.value)} required />
                 </div>
-                <button type="submit">参加する</button>
+                <div>
+                    <label>公開タイミング</label>
+                    <select value={publishTiming} onChange={(e) => setPublishTiming(e.target.value)}>
+                        <option value="immediate">今すぐ</option>
+                        <option value="today_22">当日22:00</option>
+                        <option value="tomorrow_10">翌日10:00</option>
+                    </select>
+                </div>
+                <button type="submit">投稿する</button>
             </form>
         </div>
     )
