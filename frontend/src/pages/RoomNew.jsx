@@ -7,7 +7,7 @@ export default function RoomNew() {
     const [roomId, setRoomId] = useState('')
     const [roomName, setRoomName] = useState('')
     const [accessKey, setAccessKey] = useState('')
-    const [nickName, setNickname] = useState('')
+    const [nickname, setNickname] = useState('')
     const [error, setError] = useState('')
 
     const handleSubmit = async (e) => {
@@ -42,10 +42,6 @@ export default function RoomNew() {
                 <div>
                     <label>アクセスキー</label>
                     <input value={accessKey} onChange={(e) => setAccessKey(e.target.value)} required />
-                </div>
-                <div>
-                    <label>ニックネーム</label>
-                    <input value={nickname} onChange={(e) => setNickname(e.target.value)} required />
                 </div>
                 <button type="submit">作成する</button>
             </form>

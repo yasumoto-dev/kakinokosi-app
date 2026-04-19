@@ -17,7 +17,7 @@ export default function NicknameNew() {
             return
         }
 
-        const useUuid = localStorage.getItem('userUuid') || crypto.randomUUID()
+        const userUuid = localStorage.getItem('userUuid') || crypto.randomUUID()
         localStorage.setItem('userUuid', userUuid)
         localStorage.setItem('nickname', nickname)
 
@@ -37,7 +37,7 @@ export default function NicknameNew() {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>ニックネーム</label>
-                    <input value={nickname} onChange={(e) => setNickname(e.target,value)} required />
+                    <input value={nickname} onChange={(e) => setNickname(e.target.value)} required />
 
                 </div>
                 <button type="submit">決定する</button>

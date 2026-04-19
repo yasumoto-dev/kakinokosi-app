@@ -6,7 +6,7 @@ export default function RoomJoin() {
     const navigate = useNavigate()
     const [roomId, setRoomId] = useState('')
     const [accessKey, setAccessKey] = useState('')
-    const [nickName, setNickname] = useState('')
+    const [nickname, setNickname] = useState('')
     const [error, setError] = useState('')
 
     const handleSubmit = async (e) => {
@@ -37,10 +37,6 @@ export default function RoomJoin() {
                 <div>
                     <label>アクセスキー</label>
                     <input value={accessKey} onChange={(e) => setAccessKey(e.target.value)} required />
-                </div>
-                <div>
-                    <label>ニックネーム</label>
-                    <input value={nickname} onChange={(e) => setNickname(e.target.value)} required />
                 </div>
                 <button type="submit">参加する</button>
             </form>
