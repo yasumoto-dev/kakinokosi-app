@@ -105,7 +105,7 @@ async def create_post(roomId: str, req: PostCreateRequest, db: AsyncSession = De
     return PostResponse(
         postId=str(post.id),
         isPublished=is_published,
-        publishAt=post.publish_at.isoformat(),
+        publishedAt=post.publish_at.isoformat(),
     )
 
 
@@ -120,7 +120,7 @@ async def get_posts(roomId: str, db: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=404, detail="ルームが存在しません")
     
     # 公開済みの投稿を取得
-    now = datetime.now(JST)
+    now = datetime.utcnow()
     posts_result =  await db.execute(
         select(Post)
         .where(Post.room_id == room.id, Post.publish_at <= now)
