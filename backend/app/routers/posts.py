@@ -43,14 +43,17 @@ class PostListResponse(BaseModel):
 def calc_publish_at(timing: str) -> datetime:
     now = datetime.now(JST)
     if timing == "immediate":
-        return now
+        result = now
     elif timing == "today_22":
-        return now.replace(hour=22, minute=0, second=0, microsecond=0)
+        result = now.replace(hour=22, minute=0, second=0, microsecond=0)
     elif timing == "tomorrow_10":
         tomorrow = now + timedelta(days=1)
-        return tomorrow.replace(hour=10, minute=0, second=0, microsecond=0)
+        result = tomorrow.replace(hour=10, minute=0, second=0, microsecond=0)
     else:
         raise ValueError("不正な公開タイミングです")
+    
+    # タイムゾーン情報を除去してUTCに変換して返す
+    return result.astimezone(timezone.utc).replace(tzinfo=None)
 
 
 # 投稿作成API
@@ -102,7 +105,7 @@ async def create_post(roomId: str, req: PostCreateRequest, db: AsyncSession = De
     return PostResponse(
         postId=str(post.id),
         isPublished=is_published,
-        publishAt=post.published_at.isoformat(),
+        publishAt=post.publish_at.isoformat(),
     )
 
 
@@ -121,7 +124,7 @@ async def get_posts(roomId: str, db: AsyncSession = Depends(get_db)):
     posts_result =  await db.execute(
         select(Post)
         .where(Post.room_id == room.id, Post.publish_at <= now)
-        .order_by(Post.published_at.desc())
+        .order_by(Post.publish_at.desc())
     )
     posts = posts_result.scalars().all()
 
