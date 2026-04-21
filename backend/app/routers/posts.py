@@ -100,7 +100,7 @@ async def create_post(roomId: str, req: PostCreateRequest, db: AsyncSession = De
     await db.commit()
     await db.refresh(post)
 
-    is_published = publish_at <= datetime.now(JST)
+    is_published = publish_at <= datetime.utcnow()
 
     return PostResponse(
         postId=str(post.id),
