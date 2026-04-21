@@ -14,12 +14,11 @@ export default function RoomNew() {
         e.preventDefault()
         setError('')
 
-        const userUuid = localStorage.getItem('userUuid') || crypto.randomUUID()
-        localStorage.setItem('userUuid', userUuid)
+        const userUuid = localStorage.getItem('userUuid')
+        const nickname = localStorage.getItem('nickname')
 
         try {
             const res = await createRoom({ roomId, roomName, accessKey, userUuid, nickname })
-            localStorage.setItem('nickname', nickname)
             navigate(`/rooms/${res.data.roomId}/posts`)
         } catch (err) {
             setError(err.response?.data?.detail || 'エラーが発生しました')
