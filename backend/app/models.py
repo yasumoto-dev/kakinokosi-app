@@ -40,9 +40,9 @@ class Post(Base):
     user_uuid: Mapped[str] = mapped_column(String(36), nullable=False)
     nickname: Mapped[str] = mapped_column(String(50), nullable=False)
     mood_color: Mapped[str] = mapped_column(String(20), nullable=False)
-    emotion_tag: Mapped[str | None] = mapped_column(String(50), nullable=False)
+    emotion_tag: Mapped[str | None] = mapped_column(String(50), nullable=True)
     text: Mapped[str] = mapped_column(String(400), nullable=False)
-    published_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    publish_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
