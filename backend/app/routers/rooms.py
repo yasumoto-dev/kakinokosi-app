@@ -90,9 +90,10 @@ async def join_room(roomId: str, req: RoomJoinRequest, db: AsyncSession = Depend
             RoomMember.user_uuid == req.userUuid
         )
     )
-    if member_result.scalar_one_or_none():
-        raise HTTPException(status_code=409, detail="すでにこのルームに参加しています")
-    
+    exiting_member = member_result.scalar_one_or_none()
+    if exiting_member:
+        return RoomResponse(roomId=room.room_id, roomName=room.room_name, participantCount=count)
+
     # 参加者登録
     member = RoomMember(
         room_id=room.id,
