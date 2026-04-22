@@ -33,6 +33,8 @@ class PostItem(BaseModel):
     text: str
     publishedAt: str
     updatedAt: str
+    isPublished: bool
+    userUuid: str
 
 class PostListResponse(BaseModel):
     roomId: str
@@ -141,6 +143,8 @@ async def get_posts(roomId: str, userUuid: str, db: AsyncSession = Depends(get_d
             text=post.text,
             publishedAt=post.publish_at.isoformat(),
             updatedAt=post.updated_at.isoformat(),
+            isPublished=post.publish_at <= now,
+            userUuid=post.user_uuid,
         )
         for post in posts
     ]
