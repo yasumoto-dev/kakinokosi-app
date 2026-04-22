@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPosts } from "../api/client";
+import { getPosts } from "../../api/client";
 
 export default function PostList() {
     const { roomId } = useParams()
