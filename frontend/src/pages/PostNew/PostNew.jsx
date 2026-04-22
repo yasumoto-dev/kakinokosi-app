@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { createPost } from '../api/client'
+import { createPost } from '../../api/client'
 
 const COLOR_TAGS = {
     red: ['うれしい', 'ドキドキ', 'ありがとう','興奮'],
@@ -114,6 +114,7 @@ export default function PostNew() {
                         rows={4}
                     />
                 </div>
+                
                 <div>
                     <label>公開タイミング</label>
                     <select value={publishTiming} onChange={(e) => setPublishTiming(e.target.value)}>

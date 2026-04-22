@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Top from './pages/Top'
-import NicknameNew from './pages/NicknameNew'
-import RoomNew from './pages/RoomNew'
-import RoomJoin from './pages/RoomJoin'
-import PostNew from './pages/PostNew'
-import PostList from './pages/PostList'
+import Top from './pages/Top/Top'
+import NicknameNew from './pages/NicknameNew/NicknameNew'
+import RoomNew from './pages/RoomNew/RoomNew'
+import RoomJoin from './pages/RoomJoin/RoomJoin'
+import PostNew from './pages/PostNew/PostNew'
+import PostList from './pages/PostList/PostList'
 
 // アプリのルートコンポーネント（SPA）
 export default function App() {

@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { joinRoom } from '../api/client'
+import { createRoom } from '../../api/client'
 
-export default function RoomJoin() {
+export default function RoomNew() {
     const navigate = useNavigate()
     const [roomId, setRoomId] = useState('')
+    const [roomName, setRoomName] = useState('')
     const [accessKey, setAccessKey] = useState('')
     const [nickname, setNickname] = useState('')
     const [error, setError] = useState('')
@@ -13,11 +14,11 @@ export default function RoomJoin() {
         e.preventDefault()
         setError('')
 
-        const userUuid = localStorage.getItem('userUuid') 
+        const userUuid = localStorage.getItem('userUuid')
         const nickname = localStorage.getItem('nickname')
 
         try {
-            const res = await joinRoom(roomId, { accessKey, userUuid, nickname })
+            const res = await createRoom({ roomId, roomName, accessKey, userUuid, nickname })
             navigate(`/rooms/${res.data.roomId}/posts`)
         } catch (err) {
             setError(err.response?.data?.detail || 'エラーが発生しました')
@@ -26,7 +27,7 @@ export default function RoomJoin() {
 
     return (
         <div>
-            <h1>ルームに参加する</h1>
+            <h1>ルームを作成する</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
@@ -34,10 +35,14 @@ export default function RoomJoin() {
                     <input value={roomId} onChange={(e) => setRoomId(e.target.value)} required />
                 </div>
                 <div>
+                    <label>ルーム名</label>
+                    <input value={roomName} onChange={(e) => setRoomName(e.target.value)} required />
+                </div>
+                <div>
                     <label>アクセスキー</label>
                     <input value={accessKey} onChange={(e) => setAccessKey(e.target.value)} required />
                 </div>
-                <button type="submit">参加する</button>
+                <button type="submit">作成する</button>
             </form>
         </div>
     )
