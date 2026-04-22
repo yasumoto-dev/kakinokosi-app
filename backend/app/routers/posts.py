@@ -111,19 +111,23 @@ async def create_post(roomId: str, req: PostCreateRequest, db: AsyncSession = De
 
 # 投稿一覧取得API
 @router.get("/api/rooms/{roomId}/posts", response_model=PostListResponse)
-async def get_posts(roomId: str, db: AsyncSession = Depends(get_db)):
+async def get_posts(roomId: str, userUuid: str, db: AsyncSession = Depends(get_db)):
 
     # ルーム存在チェック
     result = await db.execute(select(Room).where(Room.room_id == roomId))
     room = result.scalar_one_or_none()
     if not room:
         raise HTTPException(status_code=404, detail="ルームが存在しません")
-    
-    # 公開済みの投稿を取得
+   
     now = datetime.utcnow()
+
+    # 公開済みの投稿を取得 + 自分の公開前投稿を取得
     posts_result =  await db.execute(
         select(Post)
-        .where(Post.room_id == room.id, Post.publish_at <= now)
+        .where(
+            Post.room_id == room.id,
+            (Post.publish_at <= now) | (Post.user_uuid == userUuid)
+        )
         .order_by(Post.publish_at.desc())
     )
     posts = posts_result.scalars().all()
