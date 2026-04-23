@@ -6,15 +6,15 @@ const client = axios.create({
 })
 
 // APIのエンドポイントの定義
-export const createRoom = (data) => {
-    return client.post('/api/rooms', data)
-};
-export const joinRoom = (roomId, data) => {
-    return client.post(`/api/rooms/${roomId}/join`, data)
-};
-export const createPost = (roomId, data) => {
-    return client.post(`api/rooms/${roomId}/posts`, data)
-};
-export const getPosts = (roomId, userUuid) => {
-    return client.get(`/api/rooms/${roomId}/posts`, {params: { userUuid } })
-};
+export const createRoom = (data) => (
+    client.post('/api/rooms', data)
+);
+export const joinRoom = (roomId, data) => (
+    client.post(`/api/rooms/${roomId}/join`, data)
+);
+export const createPost = (roomId, data) => (
+    client.post(`api/rooms/${roomId}/posts`, data)
+);
+export const getPosts = (roomId, userUuid) => (
+    client.get(`/api/rooms/${roomId}/posts`, {params: { userUuid } })
+);
