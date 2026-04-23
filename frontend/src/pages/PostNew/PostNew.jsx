@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { createPost } from '../../api/client'
+import styles from './PostNew.module.css'
 
 const COLOR_TAGS = {
     red: ['うれしい', 'ドキドキ', 'ありがとう','興奮'],
@@ -58,22 +59,19 @@ export default function PostNew() {
     return (
         <div>
             <h1>投稿を作成する</h1>
-            {error && <p style={{color: 'red'}}>{error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
             <form onSubmit={handleSubmit}>
 
                 <div>
                     <label>気分カラー</label>
-                    <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                    <div className={styles.colorList}>
                         {Object.entries(COLOR_STYLES).map(([color, hex]) => (
                             <div 
                                 key={color}
                                 onClick={() => handleColorSelect(color)}
+                                className={styles.colorCircle}
                                 style={{
-                                    width: '48px',
-                                    height: '48px',
-                                    borderRadius: '50%',
                                     backgroundColor: hex,
-                                    cursor: 'pointer',
                                     border: moodColor === color ? '3px solid #333' : '3px solid transparent'
                                 }}
                             />
@@ -84,18 +82,15 @@ export default function PostNew() {
                 {moodColor && (
                     <div>
                         <label>感情タグ</label>
-                        <div style={{display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
+                        <div className={styles.tagList}>
                             {COLOR_TAGS[moodColor].map((tag) => (
                                 <button
                                     key={tag}
                                     type="button"
                                     onClick={() => setEmotionTag(tag)}
+                                    className={styles.tagButton}
                                     style={{
-                                        padding: '6px 12px',
-                                        borderRadius: '16px',
-                                        border: '1px solid #ccc',
                                         backgroundColor: emotionTag === tag ? COLOR_STYLES[moodColor] : '#fff',
-                                        cursor: 'pointer',
                                     }}
                                 >
                                     {tag}
