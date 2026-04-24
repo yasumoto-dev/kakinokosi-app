@@ -12,24 +12,9 @@ class Room(Base):
     room_name: Mapped[str] = mapped_column(String(100), nullable=False)
     access_key: Mapped[str] = mapped_column(String(100), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onUpdate=datetime.utcnow)
 
-    members: Mapped[list["RoomMember"]] = relationship("RoomMember", back_populates="room")
     posts: Mapped[list["Post"]] = relationship("Post", back_populates="room")
-
-
-class RoomMember(Base):
-    __tablename__ = "room_members"
-
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
-    room_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("rooms.id"), nullable=False)
-    user_uuid: Mapped[str] = mapped_column(String(36), nullable=False)
-    nickname: Mapped[str] = mapped_column(String(50), nullable=False)
-    joined_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    room: Mapped["Room"] = relationship("Room", back_populates="members")
 
 
 class Post(Base):
