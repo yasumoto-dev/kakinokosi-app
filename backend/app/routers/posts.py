@@ -156,5 +156,32 @@ async def get_posts(roomId: str, userUuid: str, db: AsyncSession = Depends(get_d
     )
 
 
+# 投稿削除API
+@router.delete("/api/rooms/{roomId}/posts/{postId}")
+async def delete_post(roomId: str, postId: int, userUuid: str, db: AsyncSession = Depends(get_db)):
+
+    # ルーム存在チェック
+    result = await db.execute(select(Room).where(Room.room_id == roomId))
+    room = result.scalar_one_or_none()
+    if not room:
+        raise HTTPException(status_code=404, detail="ルームが存在しません")
+   
+   # 投稿存在チェック
+    post_result = await db.execute(
+       select(Post).where(Post.id == postId, Post.room_id == room.id)
+    )
+    post = post_result.scalar_one_or_none()
+    if not post:
+        raise HTTPException(status_code=404, detail="投稿が存在しません")
+    
+    # 本人確認
+    if post.user_uuid != userUuid:
+        raise HTTPException(status_code=403, detail="自分の投稿のみ削除できます")
+    
+    await db.delete(post)
+    await db.commit()
+
+    return {"message": "削除しました"}
+
 
 
