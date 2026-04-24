@@ -68,16 +68,6 @@ async def create_post(roomId: str, req: PostCreateRequest, db: AsyncSession = De
     if not room:
         raise HTTPException(status_code=404, detail="ルームが存在しません")
 
-    # 参加者チェック
-    member_result = await db.execute(
-        select(RoomMember).where(
-              RoomMember.room_id == room.id,
-              RoomMember.user_uuid == req.userUuid
-        )
-    )       
-    if not member_result.scalar_one_or_none:
-        raise HTTPException(status_code=401, detail="このルームに参加していません")
-      
     # 文字数チェック
     if len(req.text) > 400:
       raise HTTPException(status_code=400, detail="本文は400字以内で入力してください")

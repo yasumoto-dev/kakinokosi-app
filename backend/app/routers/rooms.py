@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select
 from pydantic import BaseModel
 from app.database import get_db
-from app.models import Room, RoomMember
+from app.models import Room
 
 router = APIRouter()
 
@@ -18,13 +18,10 @@ class RoomCreateRequest(BaseModel):
 
 class RoomJoinRequest(BaseModel):
     accessKey: str
-    userUuid: str
-    nickname: str
 
 class RoomResponse(BaseModel):
     roomId: str
     roomName: str
-    participantCount: int
 
 
 # ルーム作成API
@@ -47,18 +44,9 @@ async def create_room(req: RoomCreateRequest, db: AsyncSession = Depends(get_db)
         access_key=req.accessKey,
     )
     db.add(room)
-    await db.flush()
-
-    # 作成者を参加者として登録
-    member = RoomMember(
-        room_id=room.id,
-        user_uuid=req.userUuid,
-        nickname=req.nickname,
-    )
-    db.add(member)
     await db.commit()
 
-    return RoomResponse(roomId=room.room_id, roomName=room.room_name, participantCount=1)
+    return RoomResponse(roomId=room.room_id, roomName=room.room_name)
 
 
 # ルーム参加API
@@ -75,33 +63,5 @@ async def join_room(roomId: str, req: RoomJoinRequest, db: AsyncSession = Depend
     if room.access_key != req.accessKey:
         raise HTTPException(status_code=401, detail="ルームIDまたはアクセスキーが正しくありません")
     
-    # 参加人数チェック
-    count_result = await db.execute(
-        select(func.count()).where(RoomMember.room_id == room.id)
-    )
-    count = count_result.scalar()
-    if count >= 2:
-        raise HTTPException(status_code=409, detail="このルームにはこれ以上参加できません")
-    
-    # すでに参加済みかチェック
-    member_result = await db.execute(
-        select(RoomMember).where(
-            RoomMember.room_id == room.id,
-            RoomMember.user_uuid == req.userUuid
-        )
-    )
-    exiting_member = member_result.scalar_one_or_none()
-    if exiting_member:
-        return RoomResponse(roomId=room.room_id, roomName=room.room_name, participantCount=count)
-
-    # 参加者登録
-    member = RoomMember(
-        room_id=room.id,
-        user_uuid=req.userUuid,
-        nickname=req.nickname, 
-    )
-    db.add(member)
-    await db.commit()
-
-    return RoomResponse(roomId=room.room_id, roomName=room.room_name, participantCount=count + 1)
+    return RoomResponse(roomId=room.room_id, roomName=room.room_name)
 
