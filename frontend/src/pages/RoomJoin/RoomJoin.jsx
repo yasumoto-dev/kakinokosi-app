@@ -6,18 +6,14 @@ export default function RoomJoin() {
     const navigate = useNavigate()
     const [roomId, setRoomId] = useState('')
     const [accessKey, setAccessKey] = useState('')
-    const [nickname, setNickname] = useState('')
     const [error, setError] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
 
-        const userUuid = localStorage.getItem('userUuid') 
-        const nickname = localStorage.getItem('nickname')
-
         try {
-            const res = await joinRoom(roomId, { accessKey, userUuid, nickname })
+            const res = await joinRoom(roomId, { accessKey })
             navigate(`/rooms/${res.data.roomId}/posts`)
         } catch (err) {
             setError(err.response?.data?.detail || 'エラーが発生しました')

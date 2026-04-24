@@ -105,7 +105,6 @@ export default function PostNew() {
                     <textarea
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        required
                         rows={4}
                     />
                 </div>
