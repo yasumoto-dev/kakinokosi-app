@@ -12,7 +12,7 @@ class Room(Base):
     room_name: Mapped[str] = mapped_column(String(100), nullable=False)
     access_key: Mapped[str] = mapped_column(String(100), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onUpdate=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     posts: Mapped[list["Post"]] = relationship("Post", back_populates="room")
 

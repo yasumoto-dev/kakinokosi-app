@@ -4,7 +4,7 @@ from sqlalchemy import select
 from pydantic import BaseModel
 from datetime import datetime, timedelta, timezone
 from app.database import get_db
-from app.models import Post, Room, RoomMember
+from app.models import Post, Room
 
 router = APIRouter()
 
