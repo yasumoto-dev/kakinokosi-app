@@ -58,19 +58,20 @@ export default function PostList() {
     return (
         <div>
             <h1>{roomName}</h1>
+            <button onClick={() => {navigate(`/`)}}>Topに戻る</button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <button onClick={() => navigate(`/rooms/${roomId}/posts/new`)}>
-                投稿を作成する
+                カキノコス
             </button>
 
-            <h2>公開済み</h2>
+            <h2>書き残し済み</h2>
             {publishedPosts.length === 0 ? (
                 <p>まだ公開済みの投稿がありません</p>
             ) : (
                 <ul>{publishedPosts.map(renderPost)}</ul>
             )}  
 
-            <h2>公開前（自分のみ）</h2>
+            <h2>書き残し前（自分のみ）</h2>
             {pendingPosts.length === 0 ? (
                 <p>公開前の投稿がありません</p>
             ) : (
