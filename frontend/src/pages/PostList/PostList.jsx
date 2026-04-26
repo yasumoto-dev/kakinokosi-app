@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { deletePost, getPosts } from "../../api/client";
+import styles from './PostList.module.css'
+
+const COLOR_HEX = {
+    red: '#FF6B6B',
+    blue: '#6B9FFF',
+    yellow: '#FFD93D',
+    green: '#6BCB77',
+}
 
 export default function PostList() {
     const { roomId } = useParams()
@@ -35,48 +43,74 @@ export default function PostList() {
         try {
             await deletePost(roomId, postId, userUuid)
             await fetchPosts()
-        } catch (error) {
+        } catch (err) {
             setError(err.response?.data?.detail || '削除に失敗しました')
         }
     }
 
     const renderPost = (post) => (
-        <li key={post.postId}>
-            <p>{post.nickname}</p>
-            <p>{post.moodColor}</p>
-            <p>{post.emotionTag}</p>
-            <p>{post.text}</p>
-            <p>{post.publishedAt}</p>
-            {post.userUuid === userUuid && (
-                <button onClick={() => handleDelete(post.postId)}>
-                    削除
-                </button>
-            )}
+        <li key={post.postId} className={styles.postCard}>
+            <div className={styles.postHeader}>
+                <div
+                    className={styles.colorDot}
+                    style={{backgroundColor: COLOR_HEX[post.moodColor]}}
+                />
+                <span className={styles.nickname}>{post.nickname}</span>
+                {post.emotionTag && (
+                    <span
+                        className={styles.emotionTag}
+                        style={{ backgroundColor: COLOR_HEX[post.moodColor] }}
+                    >
+                        {post.emotionTag}
+                    </span>
+                )}
+            </div>
+            <p className={styles.postText}>{post.text}</p>
+            <div className={styles.postFooter}>
+                <span className={styles.publishedAt}>{post.publishedAt}</span>
+                {post.userUuid === userUuid && (
+                    <button 
+                        className={styles.deleteButton}
+                        onClick={() => handleDelete(post.postId)}
+                    >
+                        削除
+                    </button>
+                )}
+            </div>
         </li>
     )
 
     return (
-        <div>
-            <h1>{roomName}</h1>
-            <button onClick={() => {navigate(`/`)}}>Topに戻る</button>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>{roomName}</h1>
+                <button 
+                    className={styles.postButton}
+                    onClick={() => navigate(`/rooms/${roomId}/posts/new`)}
+                >
+                    投稿する
+                </button>
+            </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <button onClick={() => navigate(`/rooms/${roomId}/posts/new`)}>
-                カキノコス
-            </button>
 
-            <h2>書き残し済み</h2>
-            {publishedPosts.length === 0 ? (
-                <p>まだ公開済みの投稿がありません</p>
-            ) : (
-                <ul>{publishedPosts.map(renderPost)}</ul>
-            )}  
 
-            <h2>書き残し前（自分のみ）</h2>
-            {pendingPosts.length === 0 ? (
-                <p>公開前の投稿がありません</p>
-            ) : (
-                <ul>{pendingPosts.map(renderPost)}</ul>
-            )}  
+            <div className={styles.section}>
+                <h2 className={styles.sectionTitle}>公開済み</h2>
+                {publishedPosts.length === 0 ? (
+                    <p>まだ公開済みの投稿がありません</p>
+                ) : (
+                    <ul>{publishedPosts.map(renderPost)}</ul>
+                )}
+            </div>
+
+            <div className={styles.section}>
+                <h2 className={styles.sectionTitle}>公開前（自分のみ）</h2>
+                {pendingPosts.length === 0 ? (
+                    <p>公開前の投稿がありません</p>
+                ) : (
+                    <ul>{pendingPosts.map(renderPost)}</ul>
+                )}
+            </div>
         </div>
     );
 }
