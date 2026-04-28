@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import styles from './NicknameNew.module.css'
 
 export default function NicknameNew() {
     const navigate = useNavigate()
@@ -31,16 +32,22 @@ export default function NicknameNew() {
     }
 
     return (
-        <div>
-            <h1>ニックネームを決めよう</h1>
+        <div className={styles.container}>
+            <h1 className={styles.title}>ニックネームを決めよう</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>ニックネーム</label>
-                    <input value={nickname} onChange={(e) => setNickname(e.target.value)} required />
 
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.fieldGroup}>
+                    <label className={styles.label}>ニックネーム</label>
+                    <input 
+                        className={styles.input}
+                        value={nickname} 
+                        onChange={(e) => setNickname(e.target.value)} 
+                        required />
                 </div>
-                <button type="submit">決定する</button>
+                <button className={styles.submitButton} type="submit">
+                    決定する
+                </button>
             </form>
         </div>
     );

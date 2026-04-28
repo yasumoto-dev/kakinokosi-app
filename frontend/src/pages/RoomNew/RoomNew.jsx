@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createRoom } from '../../api/client'
+import styles from './RoomNew.module.css'
 
 export default function RoomNew() {
     const navigate = useNavigate()
@@ -26,23 +27,45 @@ export default function RoomNew() {
     }
 
     return (
-        <div>
-            <h1>ルームを作成する</h1>
+        <div className={styles.container}>
+            <h1 className={styles.title}>ルームを作成する</h1>
+            <p className={styles.subtitle}>二人だけの空間をつくりましょう</p>
             {error && <p style={{color: 'red'}}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>ルームID</label>
-                    <input value={roomId} onChange={(e) => setRoomId(e.target.value)} required />
+
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.fieldGroup}>
+                    <label className={styles.label}>ルームID</label>
+                    <input
+                        className={styles.input}
+                        value={roomId} 
+                        placeholder='ex) 1111'
+                        onChange={(e) => setRoomId(e.target.value)} 
+                        required 
+                    />
                 </div>
-                <div>
-                    <label>ルーム名</label>
-                    <input value={roomName} onChange={(e) => setRoomName(e.target.value)} required />
+                <div className={styles.fieldGroup}>
+                    <label className={styles.label}>ルーム名</label>
+                    <input 
+                        className={styles.input}
+                        value={roomName} 
+                        placeholder='ex) Kakinokosi'
+                        onChange={(e) => setRoomName(e.target.value)} 
+                        required 
+                    />
                 </div>
-                <div>
-                    <label>アクセスキー</label>
-                    <input value={accessKey} onChange={(e) => setAccessKey(e.target.value)} required />
+                <div className={styles.fieldGroup}>
+                    <label className={styles.label}>アクセスキー (4文字以上) </label>
+                    <input 
+                        className={styles.input} 
+                        value={accessKey}
+                        placeholder='ex) 1111' 
+                        onChange={(e) => setAccessKey(e.target.value)} 
+                        required 
+                    />
                 </div>
-                <button type="submit">作成する</button>
+                <button className={styles.submitButton} type="submit">
+                    作成する
+                </button>
             </form>
         </div>
     )
