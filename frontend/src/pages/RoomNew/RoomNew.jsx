@@ -28,6 +28,9 @@ export default function RoomNew() {
 
     return (
         <div className={styles.container}>
+            <button className={styles.backButton} onClick={() => navigate(`/`)}>
+                ← 戻る
+            </button>
             <h1 className={styles.title}>ルームを作成する</h1>
             <p className={styles.subtitle}>二人だけの空間をつくりましょう</p>
             {error && <p style={{color: 'red'}}>{error}</p>}

@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     padding: 24px 16px;
+    position: relative;
 }
 
 .title {
@@ -52,6 +53,22 @@
 
 .input:focus {
     border-color: #D4956A;
+}
+
+.backButton {
+    position: absolute;
+    top: 24px;
+    left: 16px;
+    background: none;
+    border: none;
+    color: #8C6B52;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.backButton:hover {
+    color: #3D2B1F;
 }
 
 .submitButton {

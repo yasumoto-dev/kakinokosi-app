@@ -33,6 +33,9 @@ export default function NicknameNew() {
 
     return (
         <div className={styles.container}>
+            <button className={styles.backButton} onClick={() => navigate(`/`)}>
+                ← 戻る
+            </button>
             <h1 className={styles.title}>ニックネームを決めよう</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
 

@@ -23,6 +23,9 @@ export default function RoomJoin() {
 
     return (
         <div className={styles.container}>
+            <button className={styles.backButton} onClick={() => navigate(`/`)}>
+                ← 戻る
+            </button>
             <h1 className={styles.title}>ルームに参加する</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
         
