@@ -4,7 +4,7 @@ from sqlalchemy import select
 from pydantic import BaseModel
 from datetime import datetime, timedelta, timezone
 from app.database import get_db
-from app.models import Post, Room
+from app.models import Post, Room, PostRead
 
 router = APIRouter()
 
@@ -34,12 +34,23 @@ class PostItem(BaseModel):
     publishedAt: str
     updatedAt: str
     isPublished: bool
+    isRead: bool
     userUuid: str
 
 class PostListResponse(BaseModel):
     roomId: str
     roomName: str
     publishedPosts: list[PostItem]
+
+class PostDetailResponse(BaseModel):
+    postId: str
+    nickname: str
+    moodColor: str
+    emotionTag: str | None
+    text: str
+    publishedAt: str
+    isPublished: bool
+    userUuid: str
 
 
 def calc_publish_at(timing: str) -> datetime:
@@ -124,6 +135,12 @@ async def get_posts(roomId: str, userUuid: str, db: AsyncSession = Depends(get_d
     )
     posts = posts_result.scalars().all()
 
+    # 自分の既読済みpost_idを取得
+    reads_result = await db.execute(
+        select(PostRead.post_id).where(PostRead.user_uuid == userUuid)
+    )
+    read_post_ids = set(reads_result.scalars().all())
+
     published_posts = [
         PostItem(
             postId=str(post.id),
@@ -134,6 +151,7 @@ async def get_posts(roomId: str, userUuid: str, db: AsyncSession = Depends(get_d
             publishedAt=post.publish_at.isoformat(),
             updatedAt=post.updated_at.isoformat(),
             isPublished=post.publish_at <= now,
+            isRead=post.id in read_post_ids or post.user_uuid == userUuid,
             userUuid=post.user_uuid,
         )
         for post in posts
@@ -144,6 +162,54 @@ async def get_posts(roomId: str, userUuid: str, db: AsyncSession = Depends(get_d
         roomName=room.room_name,
         publishedPosts=published_posts
     )
+
+
+#投稿詳細取得API
+@router.get("/api/rooms/{roomId}/posts/{postId}", response_model=PostDetailResponse)
+async def get_post(roomId: str, postId: int, userUuid: str, db: AsyncSession = Depends(get_db)):
+
+    # ルーム存在チェック
+    result = await db.execute(select(Room).where(Room.room_id == roomId))
+    room = result.scalar_one_or_none()
+    if not room:
+        raise HTTPException(status_code=404, detail="ルームが存在しません")
+
+    # 投稿存在チェック
+    post_result = await db.execute(
+        select(Post).where(Post.id == postId, Post.room_id == room.id)
+    )
+    post = post_result.scalar_one_or_none()
+    if not post:
+        raise HTTPException(status_code=404, detail="投稿が存在しません")
+    
+    # 公開前の投稿は本人のみ閲覧可能
+    now = datetime.utcnow()
+    if post.publish_at > now and post.user_uuid != userUuid:
+        raise HTTPException(status_code=403, detail="この投稿はまだ公開されていません")
+
+    # 既読登録（自分の投稿以外かつ未読の場合のみ）
+    if post.user_uuid != userUuid:
+        exiting_read = await db.execute(
+            select(PostRead).where(
+                PostRead.post_id == post.id,
+                PostRead.user_uuid == post.userUuid
+            )
+        )
+        if not exiting_read.scalar_one_or_none():
+            read = PostRead(post_id=post.id, user_uuid=userUuid)
+            db.add(read)
+            await db.commit()
+
+    return PostDetailResponse(
+        postId=str(post.id),
+        nickname=post.nickname,
+        moodColor=post.mood_color,
+        emotionTag=post.emotion_tag,
+        text=post.text,
+        publishedAt=post.publish_at.isoformat(),
+        isPublished=post.publish_at <= now,
+        userUuid=post.user_uuid,
+    )        
 
 
 # 投稿削除API

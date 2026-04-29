@@ -32,3 +32,15 @@ class Post(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     room: Mapped["Room"] = relationship("Room", back_populates="posts")
+    reads: Mapped[list["PostRead"]] = relationship("PostRead", back_populates="post")
+
+
+class PostRead(Base):
+    __tablename__ = "post_reads"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    post_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("posts.id"), nullable=False)
+    user_uuid: Mapped[str] = mapped_column(String(36), nullable=False)
+    read_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    post: Mapped["Post"] = relationship("PostRead", back_populates="reads")
