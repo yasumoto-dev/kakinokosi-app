@@ -18,6 +18,9 @@ export const createPost = (roomId, data) => (
 export const getPosts = (roomId, userUuid) => (
     client.get(`/api/rooms/${roomId}/posts`, {params: { userUuid } })
 );
+export const getPost = (roomId, postId, userUuid) => (
+    client.get(`/api/rooms/${roomId}/posts/${postId}`, {params: { userUuid } })
+);
 export const deletePost = (roomId, postId, userUuid) => (
     client.delete(`/api/rooms/${roomId}/posts/${postId}`, { params: { userUuid } })
 );

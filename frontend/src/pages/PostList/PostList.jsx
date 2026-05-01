@@ -14,7 +14,9 @@ export default function PostList() {
     const { roomId } = useParams()
     const navigate = useNavigate()
     const [roomName, setRoomName] = useState('')
-    const [publishedPosts, setPublishedPosts] = useState([])
+    const [activeTab, setActiveTab] = useState('unread')
+    const [unreadPosts, setUnreadPosts] = useState([])
+    const [readPosts, setReadPosts] = useState([])
     const [pendingPosts, setPendingPosts] = useState([])
     const [error, setError] = useState('')
 
@@ -25,10 +27,20 @@ export default function PostList() {
             const res = await getPosts(roomId, userUuid)
             setRoomName(res.data.roomName)
 
-            // 公開済み・公開前投稿を選別
             const posts = res.data.publishedPosts
-            setPublishedPosts(posts.filter((p) => p.isPublished))
-            setPendingPosts(posts.filter((p) => !p.isPublished))
+
+            // 未読条件
+            setUnreadPosts(posts.filter(p => 
+                p.userUuid !== userUuid && p.isPublished && !p.isRead
+            ))
+            // 既読条件
+            setReadPosts(posts.filter(p => 
+                p.isPublished && (p.userUuid === userUuid || p.isRead)
+            ))
+            // 公開前条件
+            setPendingPosts(posts.filter(p =>
+                p.userUuid == userUuid && !p.isPublished
+            ))
         } catch (err) {
             setError(err.response?.data?.detail || 'エラーが発生しました')
         }
@@ -49,7 +61,12 @@ export default function PostList() {
     }
 
     const renderPost = (post) => (
-        <li key={post.postId} className={styles.postCard}>
+        <li 
+            key={post.postId} 
+            className={styles.postCard}
+            onClick={() => navigate(`/rooms/${roomId}/posts/${post.postId}`)}
+            styles={{ cursor: 'pointer' }}
+        >
             <div className={styles.postHeader}>
                 <div
                     className={styles.colorDot}
@@ -71,7 +88,10 @@ export default function PostList() {
                 {post.userUuid === userUuid && (
                     <button 
                         className={styles.deleteButton}
-                        onClick={() => handleDelete(post.postId)}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            handleDelete(post.postId)
+                        }}
                     >
                         削除
                     </button>
@@ -79,6 +99,24 @@ export default function PostList() {
             </div>
         </li>
     )
+
+    const tabs = [
+        { key: 'unread', label: `未読 ${unreadPosts.length > 0 ? `(${unreadPosts.length})` : ''}` },
+        { key: 'read', label: '既読' },
+        { key: 'pending', label: '公開前' },
+    ]
+
+    const currentPosts = {
+        unread: unreadPosts,
+        read: readPosts,
+        pending: pendingPosts,
+    }[activeTab]
+
+    const emptyMessages = {
+        unread: '未読の投稿はありません',
+        read: 'まだ既読の投稿がありません',
+        pending: '公開前の投稿はありません',
+    }
 
     return (
         <div className={styles.container}>
@@ -93,22 +131,23 @@ export default function PostList() {
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
-
-            <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>公開済み</h2>
-                {publishedPosts.length === 0 ? (
-                    <p>まだ公開済みの投稿がありません</p>
-                ) : (
-                    <ul>{publishedPosts.map(renderPost)}</ul>
-                )}
+            <div className={styles.tabs}>
+                {tabs.map(tab => (
+                    <button
+                        key={tab.key}
+                        className={`${styles.tab} ${activeTab === tab.key ? styles.activeTab : ''}`}
+                        onClick={() => setActiveTab(tab.key)}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
             </div>
-
+            
             <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>公開前（自分のみ）</h2>
-                {pendingPosts.length === 0 ? (
-                    <p>公開前の投稿がありません</p>
+                {currentPosts.length === 0 ? (
+                    <p>{emptyMessages[activeTab]}</p>
                 ) : (
-                    <ul>{pendingPosts.map(renderPost)}</ul>
+                    <ul>{currentPosts.map(renderPost)}</ul>
                 )}
             </div>
         </div>

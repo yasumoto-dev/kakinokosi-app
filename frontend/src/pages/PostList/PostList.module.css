@@ -134,3 +134,24 @@
     font-size: 0.9rem;
     margin-bottom: 16px;
 }
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tab {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #eee;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.activeTab {
+    background: #6B9FFF;
+    color: white;
+    font-weight: bold;
+}
