@@ -43,4 +43,4 @@ class PostRead(Base):
     user_uuid: Mapped[str] = mapped_column(String(36), nullable=False)
     read_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
-    post: Mapped["Post"] = relationship("PostRead", back_populates="reads")
+    post: Mapped["Post"] = relationship("Post", back_populates="reads")

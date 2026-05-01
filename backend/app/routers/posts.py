@@ -151,7 +151,7 @@ async def get_posts(roomId: str, userUuid: str, db: AsyncSession = Depends(get_d
             publishedAt=post.publish_at.isoformat(),
             updatedAt=post.updated_at.isoformat(),
             isPublished=post.publish_at <= now,
-            isRead=post.id in read_post_ids or post.user_uuid == userUuid,
+            isRead=post.id in read_post_ids or post.user_uuid == userUuid, # 既読の確認
             userUuid=post.user_uuid,
         )
         for post in posts
@@ -192,7 +192,7 @@ async def get_post(roomId: str, postId: int, userUuid: str, db: AsyncSession = D
         exiting_read = await db.execute(
             select(PostRead).where(
                 PostRead.post_id == post.id,
-                PostRead.user_uuid == post.userUuid
+                PostRead.user_uuid == userUuid
             )
         )
         if not exiting_read.scalar_one_or_none():
