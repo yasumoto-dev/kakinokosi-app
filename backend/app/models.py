@@ -32,7 +32,7 @@ class Post(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     room: Mapped["Room"] = relationship("Room", back_populates="posts")
-    reads: Mapped[list["PostRead"]] = relationship("PostRead", back_populates="post")
+    reads: Mapped[list["PostRead"]] = relationship("PostRead", back_populates="post", cascade="all, delete-orphan")
 
 
 class PostRead(Base):
