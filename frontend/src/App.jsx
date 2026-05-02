@@ -5,6 +5,7 @@ import RoomNew from './pages/RoomNew/RoomNew'
 import RoomJoin from './pages/RoomJoin/RoomJoin'
 import PostNew from './pages/PostNew/PostNew'
 import PostList from './pages/PostList/PostList'
+import PostDetail from './pages/PostDetail/PostDetail'
 
 // アプリのルートコンポーネント（SPA）
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
                 <Route path="/rooms/join" element={<RoomJoin />} />
                 <Route path="/rooms/:roomId/posts/new" element={<PostNew />} />
                 <Route path="/rooms/:roomId/posts" element={<PostList />} />
+                <Route path="/rooms/:roomId/posts/:postId" element={<PostDetail />} />
             </Routes>
         </BrowserRouter>
     );
