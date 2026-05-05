@@ -65,7 +65,7 @@ export default function Top() {
                 <div className={styles.joinedRooms}>
                     <p className={styles.joinedRoomsLabel}>参加中のルーム</p>
 
-                    {joinedRooms.length <= 1 ? (
+                    {joinedRooms.length <= 2 ? (
                         joinedRooms.map(room => (
                             <button
                                 key={room.roomId}
