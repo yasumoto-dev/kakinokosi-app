@@ -89,3 +89,20 @@
     background-color: #FDF0E8;
     border-color: #D4956A;
 }
+
+.closeButton {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.9rem;
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.closeButton:hover {
+    color: #e27228;
+}
