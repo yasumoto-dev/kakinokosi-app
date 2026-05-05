@@ -99,11 +99,21 @@ export default function PostList() {
                     <h1 className={styles.title}>{roomName}</h1>
                     <p className={styles.subtitle}>{unreadPosts.length}通の書き残し</p>
                 </div>
-                {unreadPosts.length > 0 && (
-                    <div className={styles.unreadBadge}>
-                        ● 未読 {unreadPosts.length}通
-                    </div>
-                )}
+
+                <div className={styles.headerActions}>
+                    {unreadPosts.length > 0 && (
+                        <div className={styles.unreadBadge}>
+                            ● 未読 {unreadPosts.length}通
+                        </div>
+                    )}
+                    
+                    <button
+                        className={styles.topButton}
+                        onClick={() => navigate(`/`)}
+                    >
+                        Topに戻る
+                    </button>
+                </div>
             </div>
 
             {error && <p style={{ color: 'red' }}>{error}</p>}

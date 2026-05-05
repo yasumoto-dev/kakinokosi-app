@@ -111,3 +111,26 @@
     font-size: 14px;
     cursor: pointer;
 }
+
+.topButton {
+    align-self: flex-start;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 999px;
+    background-color: #f3eee7;
+    color: #6b5a4a;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.topButton:hover {
+    background-color: #d4cac4;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
