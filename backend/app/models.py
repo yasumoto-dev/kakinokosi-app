@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, String, Text, DateTime, ForeignKey
+from sqlalchemy import BigInteger, String, Text, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from app.database import Base
@@ -15,6 +15,7 @@ class Room(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     posts: Mapped[list["Post"]] = relationship("Post", back_populates="room")
+    members: Mapped[list["RoomMember"]] = relationship("RoomMember", back_populates="room")
 
 
 class Post(Base):
@@ -44,3 +45,18 @@ class PostRead(Base):
     read_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     post: Mapped["Post"] = relationship("Post", back_populates="reads")
+
+
+class RoomMember(Base):
+    __tablename__ = "room_members"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    room_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("rooms.id"), nullable=False)
+    user_uuid: Mapped[str] = mapped_column(String(36), nullable=False)
+    joined_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    room: Mapped["Room"] = relationship("Room", back_populates="members")
+
+    __table_args__ = (
+        UniqueConstraint("room_id", "user_uuid", name="uq_room_member"),
+    )
