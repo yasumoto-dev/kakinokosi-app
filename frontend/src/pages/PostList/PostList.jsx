@@ -32,7 +32,7 @@ export default function PostList() {
     const { roomId } = useParams()
     const navigate = useNavigate()
     const [roomName, setRoomName] = useState('')
-    const [activeTab, setActiveTab] = useState('unread')
+    const [activeTab, setActiveTab] = useState('read')
     const [unreadPosts, setUnreadPosts] = useState([])
     const [readPosts, setReadPosts] = useState([])
     const [pendingPosts, setPendingPosts] = useState([])

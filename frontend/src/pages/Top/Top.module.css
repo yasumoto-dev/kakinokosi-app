@@ -59,3 +59,33 @@
 .secondaryButton:hover {
     background-color: #FDF0E8;
 }
+
+.joinedRooms {
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 32px;
+}
+
+.joinedRoomsLabel {
+    font-size: 0.8rem;
+    color: #8C6B52;
+    margin-bottom: 10px;
+}
+
+.roomButton {
+    width: 100%;
+    padding: 14px;
+    background-color: #fff;
+    color: #c0713d;
+    border: 1px solid #e27228;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.roomButton:hover {
+    background-color: #FDF0E8;
+    border-color: #D4956A;
+}

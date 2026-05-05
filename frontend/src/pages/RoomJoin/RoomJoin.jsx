@@ -13,11 +13,18 @@ export default function RoomJoin() {
         e.preventDefault()
         setError('')
 
+        const userUuid = localStorage.getItem('userUuid')
+
         try {
-            const res = await joinRoom(roomId, { accessKey })
+            const res = await joinRoom(roomId, { accessKey, userUuid })
             navigate(`/rooms/${res.data.roomId}/posts`)
         } catch (err) {
-            setError(err.response?.data?.detail || 'エラーが発生しました')
+            const detail = err.response?.data?.detail
+
+            const message = Array.isArray(detail)
+                ? detail[0]?.msg || 'エラーが発生しました'
+                : detail || 'エラーが発生しました'
+            setError(message)
         }
     }
 

@@ -6,6 +6,9 @@ const client = axios.create({
 })
 
 // APIのエンドポイントの定義
+export const getUserRooms = (userUuid) => (
+    client.get(`/api/users/${userUuid}/rooms`)
+);
 export const createRoom = (data) => (
     client.post('/api/rooms', data)
 );

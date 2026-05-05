@@ -1,8 +1,38 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUserRooms } from "../../api/client";
 import styles from './Top.module.css'
 
 export default function Top() {
     const navigate = useNavigate()
+    const [joinedRooms, setJoinedRooms] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const userUuid = localStorage.getItem('userUuid')
+
+    useEffect(() => {
+        fetchJoinedRooms()
+    },[])
+
+    // 参加済みルーム取得
+    const fetchJoinedRooms = async () => {
+        if (!userUuid) {
+            setLoading(false)
+            return
+        }
+        
+        try {
+            const res = await getUserRooms(userUuid)
+            const rooms = res.data
+            
+            setJoinedRooms(rooms)
+        } catch (err) {
+            // エラー時は通常のトップ画面を表示
+        } finally {
+            setLoading(false)
+        }
+    }
+
 
     const handleRoomNew = () => {
         const nickname = localStorage.getItem('nickname')
@@ -22,11 +52,29 @@ export default function Top() {
         }
     }
 
+    if (loading) return <p>読み込み中...</p>
 
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>カキノコシ</h1>
             <p className={styles.subtitle}>大切な気持ちを、時間差で届けよう</p>
+
+            {joinedRooms.length > 0 && (
+                <div className={styles.joinedRooms}>
+                    <p className={styles.joinedRoomsLabel}>参加中のルーム</p>
+                    {joinedRooms.map(room => (
+                        <button
+                            key={room.roomId}
+                            className={styles.roomButton}
+                            onClick={() => navigate(`/rooms/${room.roomId}/posts`)}
+                        >
+                            {room.roomName}
+                        </button>
+                    ))}
+                </div>
+            )}
+
+
             <div className={styles.buttonGroup}>
                 <button className={styles.primaryButton} onClick={handleRoomNew}>
                     ルームを作成する
