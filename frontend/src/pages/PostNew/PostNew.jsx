@@ -4,9 +4,9 @@ import { createPost } from '../../api/client'
 import styles from './PostNew.module.css'
 
 const COLOR_TAGS = {
-    red:    ['うれしい', 'ドキドキ', 'ありがとう', '興奮'],
+    red:    ['うれしい', 'ドキドキ', 'ありがとう', '好き', '会いたい'],
     blue:   ['寂しい', '悲しい', '疲れた', '落ちつく'],
-    yellow: ['楽しい', 'わくわく', '驚き', '笑った'],
+    yellow: ['楽しい', 'わくわく', 'びっくり', '笑った'],
     green:  ['ほっとした', '癒された', '懐かしい', '穏やか'],
 }
 
