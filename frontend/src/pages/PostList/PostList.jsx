@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { deletePost, getPosts } from "../../api/client";
-import EnvelopeCard from '../../components/EnvelopedCard/EnvelopedCard'
+import EnvelopeCard from '../../components/EnvelopeCard/EnvelopeCard'
 import ReadCard from '../../components/ReadCard/ReadCard'
 import styles from './PostList.module.css'
 
@@ -77,7 +77,7 @@ export default function PostList() {
     }
 
     // 表示用データ
-    const postByTab = {
+    const postsByTab = {
         unread: unreadPosts,
         read: readPosts,
         pending: pendingPosts,
@@ -86,7 +86,7 @@ export default function PostList() {
 
     const tabs = TABS.map(tab => ({
         ...tab,
-        count: postsByTab[tab.key].length
+        count: postsByTab[tab.key].length,
     }))
 
     // 共通props
@@ -128,7 +128,7 @@ export default function PostList() {
                     <p className={styles.empty}>{EMPTY_MESSAGES[activeTab]}</p>
                 ) : (
                     activeTab === 'read'
-                        ? currentPosts.map(post => <ReadCard key={post.postId} post={post} {...cardPosts} />)
+                        ? currentPosts.map(post => <ReadCard key={post.postId} post={post} {...cardProps} />)
                         : currentPosts.map(post => <EnvelopeCard key={post.postId} post={post} {...cardProps} />)
                 )}
             </div>

@@ -8,7 +8,7 @@ const COLOR_HEX = {
     green: '#6BCB77',
 }
 
-export default function EnvelopedCard({ post, userUuid, roomId, onDelete, formatDelete }) {
+export default function EnvelopeCard({ post, userUuid, roomId, onDelete, formatDate }) {
     const navigate = useNavigate()
     
     const color = COLOR_HEX[post.moodColor] || '#888'
@@ -44,7 +44,7 @@ export default function EnvelopedCard({ post, userUuid, roomId, onDelete, format
                     {post.userUuid === userUuid && (
                         <button
                             className={styles.deleteButtonSmall}
-                            onClick={(e) => handleDelete(post.postId, e)}
+                            onClick={(e) => onDelete(post.postId, e)}
                         >
                             削除
                         </button>

@@ -32,7 +32,7 @@ export default function ReadCard({ post, userUuid, roomId, onDelete, formatDate 
                     {post.userUuid === userUuid && (
                         <button
                             className={styles.deleteButtonSmallDark}
-                            onClick={(e) => handleDelete(post.postId, e)}
+                            onClick={(e) => onDelete(post.postId, e)}
                         >
                             削除
                         </button>
