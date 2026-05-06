@@ -18,11 +18,12 @@ import styles from './PostList.module.css'
     }
 
     const formatDate = (isoString) => {
-        const date = new Date(isoString)
+        const date = new Date(isoString + 'Z')
         const now = new Date()
         const diffMs = now - date
         const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+        if (diffHours < 1) return 'たった今'
         if (diffHours < 24) return `${diffHours}時間前`
         if (diffDays < 7) return `${diffDays}日前`
         return `${date.getMonth() + 1}月${date.getDate()}日`

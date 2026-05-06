@@ -21,6 +21,14 @@ const STAMP_COLOR = {
     yellow: '#a07800',
 }
 
+const formatDetailDate = (isoString) => {
+    const date = new Date(isoString + 'Z')
+    const y = date.getFullYear()
+    const m = String(date.getMonth() + 1).padStart(2, '0')
+    const d = String(date.getDate()).padStart(2, '0')
+    return `${y}/${m}/${d}`
+}
+
 export default function PostDetail() {
     const { roomId, postId } = useParams()
     const navigate = useNavigate()
@@ -91,7 +99,7 @@ export default function PostDetail() {
                     </span>
                 )}
                 <p className={styles.text}>{post.text}</p>
-                <div className={styles.date}>{post.publishedAt}</div>
+                <div className={styles.date}>{formatDetailDate(post.publishedAt)}</div>
             </div>
         </div>
     );
