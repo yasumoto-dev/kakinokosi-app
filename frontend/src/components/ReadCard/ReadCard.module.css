@@ -27,6 +27,8 @@
     line-height: 1.7;
     color: #3a3028;
     margin: 0 0 12px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .readCardFooter {

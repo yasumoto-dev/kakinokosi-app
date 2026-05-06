@@ -84,6 +84,8 @@
     color: #3a3028;
     position: relative;
     margin: 0 0 20px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .date {

@@ -61,7 +61,16 @@ export default function PostNew() {
         }
 
         try {
-            await createPost(roomId, { userUuid, nickname, moodColor, emotionTag, text, publishTiming })
+            const normalizedText = text.replace(/\n{4,}/g, '\n\n\n')
+
+            await createPost(roomId, {
+                userUuid,
+                nickname,
+                moodColor,
+                emotionTag,
+                text: normalizedText,
+                publishTiming 
+            })
             navigate(`/rooms/${roomId}/posts`)
         } catch (err) {
             setError(err.response?.data?.detail || 'エラーが発生しました')

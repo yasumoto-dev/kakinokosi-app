@@ -16,7 +16,7 @@ export const joinRoom = (roomId, data) => (
     client.post(`/api/rooms/${roomId}/join`, data)
 );
 export const createPost = (roomId, data) => (
-    client.post(`api/rooms/${roomId}/posts`, data)
+    client.post(`/api/rooms/${roomId}/posts`, data)
 );
 export const getPosts = (roomId, userUuid) => (
     client.get(`/api/rooms/${roomId}/posts`, {params: { userUuid } })
