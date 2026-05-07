@@ -23,23 +23,26 @@
     color: #fff;
 }
 
-.readCardText {
-    padding: 20px 20px 12px;
-    font-size: 15px;
-    line-height: 1.7;
-    color: #3a3028;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-
+.readCardTextWrapper {
+    margin: 0 20px;
     background-image: repeating-linear-gradient(
         to bottom,
         transparent,
-        transparent calc(1.7em - 1px),
-        #e8dfd3 calc(1.7em - 1px),
-        #e8dfd3 1.7em 
+        transparent calc(25.5px - 1px),
+        #e8dfd3 calc(25.5px - 1px),
+        #e8dfd3 25.5px 
     );
-    background-size: 100% 1.7em;
-    background-position: 0 20px;
+    background-size: 100% 25.5px;
+    background-position: 0 71px;
+}
+
+.readCardText {
+    padding: 20px 4px 12px;
+    font-size: 15px;
+    line-height: 25.5px;
+    color: #3a3028;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .readCardFooter {

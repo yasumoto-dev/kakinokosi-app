@@ -27,7 +27,11 @@ export default function ReadCard({ post, userUuid, roomId, onDelete, formatDate 
                 </span>
                 <span className={styles.readCardDate}>{formatDate(post.publishedAt)}</span>
             </div>
-            <p className={styles.readCardText}>{post.text}</p>
+
+            <div className={styles.readCardTextWrapper}>
+                <p className={styles.readCardText}>{post.text}</p>
+            </div>
+
             <div className={styles.readCardFooter}>
                 <span className={styles.readCardStatus}>既読</span>
                 {post.userUuid === userUuid && (

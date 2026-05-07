@@ -10,6 +10,7 @@ body {
   width: 100%;
   overflow-x: hidden;
   background: #faf7f2;
+  font-family: 'Klee One', sans-serif;
 }
 
 #root {
