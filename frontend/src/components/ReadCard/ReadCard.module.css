@@ -1,7 +1,8 @@
 .readCard {
-    background: white;
+    background: #fdfaf4;
     border-radius: 8px;
     cursor: pointer;
+    border: 1px solid #e8dfc8;
 }
 
 .readCardHeader {
