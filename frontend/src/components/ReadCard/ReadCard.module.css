@@ -28,22 +28,24 @@
 }
 
 .readCardText {
+    margin: 0;
     padding: 20px 4px 12px;
     font-size: 15px;
-    line-height: 25.5px;
+    line-height: 26px;
     color: #3a3028;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    -webkit-text-size-adjust: 100%;
 
     background-image: repeating-linear-gradient(
         to bottom,
         transparent,
-        transparent calc(25.5px - 1px),
-        #e8dfd3 calc(25.5px - 1px),
-        #e8dfd3 25.5px 
+        transparent 25px,
+        #e8dfd3 25px,
+        #e8dfd3 26px 
     );
-    background-size: 100% 25.5px;
-    background-position: 0 71px;
+    background-size: 100% 26px;
+    background-position: 0 72px;
 }
 
 .readCardFooter {
