@@ -89,7 +89,6 @@ export default function PostDetail() {
 
             {/* 手紙本文 */}
             <div className={styles.letterBody}>
-                <div className={styles.ruledLines} />
                 {post.emotionTag && (
                     <span
                         className={styles.tag}

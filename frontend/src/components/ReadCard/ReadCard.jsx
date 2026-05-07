@@ -16,11 +16,13 @@ export default function ReadCard({ post, userUuid, roomId, onDelete, formatDate 
     return (
         <div
             className={styles.readCard}
-            style={{ borderLeftColor: color }}
             onClick={() => navigate(`/rooms/${roomId}/posts/${post.postId}`)}
         >
-            <div className={styles.readCardHeader}>
-                <span className={styles.readCardNickname} style={{ color }}>
+            <div
+                className={styles.readCardHeader}
+                style={{backgroundColor: color}}
+            >
+                <span className={styles.readCardNickname}>
                     {post.nickname}
                 </span>
                 <span className={styles.readCardDate}>{formatDate(post.publishedAt)}</span>
@@ -28,19 +30,19 @@ export default function ReadCard({ post, userUuid, roomId, onDelete, formatDate 
             <p className={styles.readCardText}>{post.text}</p>
             <div className={styles.readCardFooter}>
                 <span className={styles.readCardStatus}>既読</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    {post.userUuid === userUuid && (
+                {post.userUuid === userUuid && (
+                    <div className={styles.actionWrapper}>
                         <button
                             className={styles.deleteButtonSmallDark}
                             onClick={(e) => onDelete(post.postId, e)}
                         >
                             削除
                         </button>
-                    )}
-                    <span className={styles.readCardHeart} style={{ color: COLOR_HEX[post.moodColor] }}>
-                        あなた
-                    </span>
-                </div>
+                        <span className={styles.readCardHeart} style={{ color: COLOR_HEX[post.moodColor] }}>
+                            あなた
+                        </span>
+                    </div>
+                )}               
             </div>
         </div>
     )
