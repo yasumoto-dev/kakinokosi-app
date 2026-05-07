@@ -25,15 +25,6 @@
 
 .readCardTextWrapper {
     margin: 0 20px;
-    background-image: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent calc(25.5px - 1px),
-        #e8dfd3 calc(25.5px - 1px),
-        #e8dfd3 25.5px 
-    );
-    background-size: 100% 25.5px;
-    background-position: 0 71px;
 }
 
 .readCardText {
@@ -43,6 +34,16 @@
     color: #3a3028;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+
+    background-image: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent calc(25.5px - 1px),
+        #e8dfd3 calc(25.5px - 1px),
+        #e8dfd3 25.5px 
+    );
+    background-size: 100% 25.5px;
+    background-position: 0 71px;
 }
 
 .readCardFooter {
