@@ -24,15 +24,25 @@
     color: #fff;
 }
 
-.readCardTextWrapper {
+.letterBody {
     margin: 0 20px;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 11px;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 2px 10px;
+    margin-top: 10px;
+    position: relative;
 }
 
 .readCardText {
     --lh: 30px;
 
     margin: 0;
-    padding: 20px 4px 12px;
+    padding: 10px 4px 12px;
     font-size: 15px;
     line-height: var(--lh);
     color: #3a3028;
@@ -48,7 +58,7 @@
         #e8dfd3 var(--lh)
     );
     background-size: 100% var(--lh);
-    background-position: 0 calc(20px + var(--lh) * 2);
+    background-position: 0 calc(10px + var(--lh) * 2);
 }
 
 .readCardFooter {
