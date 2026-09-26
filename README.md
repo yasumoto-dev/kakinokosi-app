@@ -22,6 +22,17 @@
 
 ---
 
+### 📚ドキュメント
+
+| ドキュメント | 内容 |
+|---|---|
+| [docs/setup.md](docs/setup.md) | ローカル開発環境のセットアップ・環境変数・テストの実行 |
+| [docs/architecture.md](docs/architecture.md) | システム構成・画面遷移・公開予約と既読の仕組み |
+| [docs/api.md](docs/api.md) | API エンドポイント一覧 |
+| [docs/database.md](docs/database.md) | テーブル定義・ER 図・日時の扱い |
+
+---
+
 ### 📃ディレクトリ構成
 
 ```
@@ -34,6 +45,7 @@ kakinokosi-app
 │     └─ routers/         # 機能ごとのエンドポイント分割
 │        ├─ posts.py      # 投稿関連API
 │        └─ rooms.py      # ルーム関連API
+├─ docs/                  # 開発者向けドキュメント
 ├─ frontend/              # フロントエンド (React + Vite)
 │  ├─ src/
 │  │  ├─ api/             # axios等を用いたAPI通信クライアント
