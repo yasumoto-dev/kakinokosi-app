@@ -1,0 +1,7 @@
+# Ruff（Python の Lint ツール）の設定
+target-version = "py312"
+line-length = 120
+
+[lint]
+# E: pycodestyle のエラー, F: Pyflakes（未使用 import・未定義名など）
+select = ["E4", "E7", "E9", "F"]

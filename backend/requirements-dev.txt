@@ -1,0 +1,5 @@
+# 開発・テスト用の依存（本番の Render では使わない）
+-r requirements.txt
+pytest==9.1.1
+httpx==0.28.1
+ruff==0.16.9
