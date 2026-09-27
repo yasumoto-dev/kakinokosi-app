@@ -8,7 +8,8 @@
 
 その場では伝えづらい感情を、時間差でそっと届けるための非同期コミュニケーションアプリです。ルームを共有した2人だけが、感情のこもった「手紙」を送り合うことができます。
 
-公開URL: https://kakinokosi-frontend.vercel.app/
+frontend: https://kakinokosi-frontend.vercel.app
+backend : https://kakinokosi-backend.onrender.com
 
 ---
 
