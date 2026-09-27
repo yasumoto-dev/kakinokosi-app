@@ -109,12 +109,15 @@ npm run lint    # eslint
 ### ROS の環境で `pytest` が `ModuleNotFoundError: No module named 'yaml'` で落ちる
 
 ROS を `source` したシェルでは `PYTHONPATH` に ROS のパッケージが入り、
-pytest が ROS 側のプラグイン（`launch_testing`）を読み込もうとして失敗します。
-`PYTHONPATH` を空にして実行してください。
+pytest が ROS 側のプラグイン（`launch_testing` など）を自動で読み込もうとして失敗します。
 
-```bash
-PYTHONPATH= pytest
-```
+`backend/pytest.ini` で `--disable-plugin-autoload` を指定してプラグインの自動読み込みを止めているため、
+現在は ROS を `source` したままでも `pytest` をそのまま実行できます。
+このエラーが出る場合は、`backend/` の外から引数なしで pytest を実行して `pytest.ini` が読まれていないか、
+pytest が 8.4 未満になっていないかを確認してください。
+
+なお自動読み込みを止めているので、pytest のプラグイン（`pytest-cov` など）を追加したときは
+`pytest.ini` の `addopts` に `-p pytest_cov` のように明示的に書く必要があります。
 
 ### `npm ci` が lock ファイルの不整合で失敗する
 
